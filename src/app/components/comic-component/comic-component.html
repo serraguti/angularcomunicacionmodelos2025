@@ -1,1 +1,11 @@
-<p>comic-component works!</p>
+<div style="float:left">
+    <h2 style="color:blue">{{comic.titulo}}</h2>
+    <h3 style="color:red">{{ comic.descripcion}}</h3>
+    <img src={{comic.imagen}} style="width:100px; height: 120px"/><br/>
+    <button (click)="marcarFavorito()">
+        Favorito
+    </button>
+    <button (click)="eliminarComic()" style="background-color: red">
+        Delete
+    </button>
+</div>
