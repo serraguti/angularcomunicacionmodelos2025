@@ -1,17 +1,25 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Comic } from '../../models/comic';
+import { ServiceComics } from '../../services/service.comics';
+
 @Component({
   selector: 'app-libreria',
   standalone: false,
   templateUrl: './libreria-component.html',
   styleUrl: './libreria-component.css',
 })
-export class LibreriaComponent {
+export class LibreriaComponent implements OnInit{
   @ViewChild("cajatitulo") cajaTitulo!: ElementRef;
   @ViewChild("cajadescripcion") cajaDescripcion!: ElementRef;
   @ViewChild("cajaimagen") cajaImagen!: ElementRef;
-  public comics: Array<Comic>;
+  public comics!: Array<Comic>;
   public comicFavorito!: Comic;
+
+  constructor(private _service: ServiceComics) {}
+
+  ngOnInit(): void {
+    this.comics = this._service.getComics();
+  }
 
   createComic(): void {
     let titulo = this.cajaTitulo.nativeElement.value;
@@ -27,35 +35,5 @@ export class LibreriaComponent {
 
   deleteComic(index: number){
     this.comics.splice(index, 1);
-  }
-
-  constructor() {
-    this.comics = [
-      new Comic(
-        "Spiderman",
-        "https://images-na.ssl-images-amazon.com/images/I/61AYfL5069L.jpg",
-        "Hombre araña"
-      ),
-      new Comic(
-        "Wolverine",
-        "https://i.etsystatic.com/9340224/r/il/42f0e1/1667448004/il_570xN.1667448004_sqy0.jpg",
-        "Lobezno"
-      ),
-      new Comic(
-        "Guardianes de la Galaxia",
-        "https://lanocheamericana.net/wp-content/uploads/2021/11/guardianes-de-la-galaxia-15-90-panini.jpg",
-        "Yo soy Groot"
-      ),
-      new Comic(
-      "Avengers",
-      "https://d26lpennugtm8s.cloudfront.net/stores/057/977/products/ma_avengers_01_01-891178138c020318f315132687055371-640-0.jpg",
-      "Los Vengadores"
-      ),
-      new Comic(
-      "Spawn",
-      "https://i.pinimg.com/originals/e1/d8/ff/e1d8ff4aeab5e567798635008fe98ee1.png",
-      "Todd MacFarlane"
-      )
-    ]; 
   }
 }
